@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jeffrey Le — Electrical Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0d2140;
+    --navy-mid: #1a3a5c;
+    --navy-light: #2a5280;
+    --gold: #b8902a;
+    --gold-light: #d4a843;
+    --cream: #faf8f4;
+    --white: #ffffff;
+    --gray-100: #f5f4f1;
+    --gray-200: #e8e6e0;
+    --gray-400: #9e9b93;
+    --gray-600: #5c5a54;
+    --gray-800: #2e2c28;
+    --text: #1c1a17;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Source Sans 3', system-ui, sans-serif;
+    --shadow-sm: 0 1px 3px rgba(13,33,64,0.08);
+    --shadow-md: 0 4px 16px rgba(13,33,64,0.10);
+    --shadow-lg: 0 8px 32px rgba(13,33,64,0.13);
+    --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--text);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,248,244,0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--gray-200);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+  }
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gray-600);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--navy); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 80px 5% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; right: 0;
+    width: 45%; height: 100%;
+    background: var(--navy);
+    clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
+    z-index: 0;
+  }
+  .hero-inner {
+    position: relative; z-index: 1;
+    max-width: 1200px; margin: 0 auto; width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+  }
+  .hero-text {}
+  .hero-eyebrow {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--navy);
+    margin-bottom: 0.5rem;
+  }
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 400;
+    color: var(--gray-600);
+    margin-bottom: 1.5rem;
+    font-style: italic;
+  }
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--gray-600);
+    max-width: 460px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background: var(--navy);
+    color: var(--white);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--navy);
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--navy-mid); border-color: var(--navy-mid); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background: transparent;
+    color: var(--navy);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--navy);
+    transition: all var(--transition);
+    cursor: pointer;
+  }
+  .btn-secondary:hover { background: var(--navy); color: var(--white); }
+
+  .hero-card {
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 2.5rem;
+    color: var(--white);
+  }
+  .hero-card-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 1.5rem;
+  }
+  .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+  .hero-stat-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.4;
+  }
+  .hero-divider {
+    width: 40px; height: 2px;
+    background: var(--gold);
+    margin: 1.5rem 0;
+  }
+  .hero-institution {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.75);
+  }
+  .hero-institution strong { color: var(--white); display: block; }
+
+  /* SECTIONS */
+  section { padding: 100px 5%; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-header { margin-bottom: 4rem; }
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .section-rule {
+    width: 48px; height: 3px;
+    background: var(--gold);
+    margin-top: 1rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--white); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5rem; align-items: start; }
+  .about-sidebar {}
+  .about-info-block { margin-bottom: 2rem; }
+  .about-info-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .about-info-value {
+    font-size: 0.95rem;
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .about-content p {
+    font-size: 1.05rem;
+    color: var(--gray-600);
+    margin-bottom: 1.25rem;
+    line-height: 1.85;
+  }
+  .about-content p:last-child { margin-bottom: 0; }
+
+  /* SKILLS */
+  #skills { background: var(--cream); }
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .skill-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    padding: 1.75rem;
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .skill-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+  .skill-card-icon {
+    width: 40px; height: 40px;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .skill-card-icon svg { width: 20px; height: 20px; stroke: var(--white); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+  .skill-card-title {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .skill-tag {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--navy);
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    padding: 0.2rem 0.6rem;
+  }
+
+  /* EXPERIENCE */
+  #experience { background: var(--white); }
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 0; top: 8px; bottom: 8px;
+    width: 1px; background: var(--gray-200);
+  }
+  .timeline-item { position: relative; margin-bottom: 3rem; }
+  .timeline-item::before {
+    content: '';
+    position: absolute; left: -2.4rem; top: 8px;
+    width: 9px; height: 9px;
+    background: var(--gold);
+    border: 2px solid var(--white);
+    outline: 1px solid var(--gold);
+    border-radius: 50%;
+  }
+  .timeline-date {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+  .timeline-role {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 0.1rem;
+  }
+  .timeline-org {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    margin-bottom: 0.9rem;
+  }
+  .timeline-bullets { list-style: none; }
+  .timeline-bullets li {
+    font-size: 0.92rem;
+    color: var(--gray-600);
+    padding: 0.25rem 0 0.25rem 1.2rem;
+    position: relative;
+    line-height: 1.7;
+  }
+  .timeline-bullets li::before {
+    content: '—';
+    position: absolute; left: 0;
+    color: var(--gold);
+    font-size: 0.8rem;
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--cream); }
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+  .project-card {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    display: flex; flex-direction: column;
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .project-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+  .project-card-header {
+    background: var(--navy);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card-header::after {
+    content: '';
+    position: absolute; bottom: -1px; right: -1px;
+    width: 60px; height: 60px;
+    background: var(--gold);
+    clip-path: polygon(100% 0, 100% 100%, 0 100%);
+  }
+  .project-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 0.6rem;
+  }
+  .project-name {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--white);
+    line-height: 1.3;
+  }
+  .project-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--gray-600);
+    line-height: 1.75;
+    flex: 1;
+  }
+  .project-footer {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--gray-200);
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+  }
+  .project-tech {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--navy);
+    background: var(--gray-100);
+    padding: 0.15rem 0.5rem;
+    border: 1px solid var(--gray-200);
+  }
+
+  /* CERTIFICATIONS */
+  #certifications { background: var(--navy); }
+  #certifications .section-eyebrow { color: var(--gold-light); }
+  #certifications .section-title { color: var(--white); }
+  #certifications .section-rule { background: var(--gold-light); }
+  .certs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+  .cert-item {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1.25rem;
+    display: flex; gap: 1rem; align-items: flex-start;
+    transition: background var(--transition);
+  }
+  .cert-item:hover { background: rgba(255,255,255,0.05); }
+  .cert-dot {
+    width: 8px; height: 8px;
+    background: var(--gold-light);
+    border-radius: 50%;
+    margin-top: 0.45rem;
+    flex-shrink: 0;
+  }
+  .cert-name {
+    font-size: 0.87rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+  }
+  .cert-source {
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.4);
+    margin-top: 0.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--white); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-intro p {
+    font-size: 1rem;
+    color: var(--gray-600);
+    line-height: 1.85;
+    margin-bottom: 1.5rem;
+  }
+  .contact-info-item {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    color: var(--gray-600);
+  }
+  .contact-info-icon {
+    width: 32px; height: 32px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-200);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-info-icon svg { width: 15px; height: 15px; stroke: var(--navy); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .contact-form {}
+  .form-row { margin-bottom: 1.25rem; }
+  .form-label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 0.4rem;
+  }
+  .form-input, .form-textarea {
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    color: var(--text);
+    background: var(--cream);
+    border: 1px solid var(--gray-200);
+    padding: 0.7rem 0.9rem;
+    outline: none;
+    transition: border-color var(--transition);
+    resize: vertical;
+  }
+  .form-input:focus, .form-textarea:focus { border-color: var(--navy); }
+  .form-textarea { min-height: 130px; }
+  .form-note {
+    font-size: 0.75rem;
+    color: var(--gray-400);
+    margin-top: 0.75rem;
+    font-style: italic;
+  }
+  .form-success {
+    display: none;
+    padding: 1rem;
+    background: #eaf3de;
+    border: 1px solid #c0dd97;
+    font-size: 0.9rem;
+    color: #3B6D11;
+    margin-top: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 2.5rem 5%;
+    text-align: center;
+  }
+  .footer-name {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--white);
+    margin-bottom: 0.25rem;
+  }
+  .footer-note {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+  }
+
+  /* ANIMATIONS */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .hero::before { width: 100%; clip-path: none; top: auto; height: 40%; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Jeffrey Le</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero" class="hero">
+  <div class="hero-inner">
+    <div class="hero-text fade-up">
+      <p class="hero-eyebrow">Electrical Engineering Portfolio</p>
+      <h1 class="hero-name">Jeffrey<br>Thien Bao Le</h1>
+      <p class="hero-title">EE Student &amp; Electronics Intern</p>
+      <p class="hero-desc">Kennesaw State University senior with hands-on experience in embedded systems, RF simulation, circuit design, and Arduino-based hardware — seeking electrical engineering internship and industry roles.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Get In Touch</a>
+        <a href="JeffreyLeResume_v6.docx" download class="btn-secondary">Download Résumé</a>
+      </div>
+    </div>
+    <div class="hero-card fade-up" style="animation-delay:0.15s">
+      <p class="hero-card-title">At a Glance</p>
+      <div class="hero-stats">
+        <div>
+          <p class="hero-stat-num">4+</p>
+          <p class="hero-stat-label">Years of Engineering Study</p>
+        </div>
+        <div>
+          <p class="hero-stat-num">8</p>
+          <p class="hero-stat-label">LinkedIn Certifications</p>
+        </div>
+        <div>
+          <p class="hero-stat-num">4</p>
+          <p class="hero-stat-label">Major Projects</p>
+        </div>
+        <div>
+          <p class="hero-stat-num">3+</p>
+          <p class="hero-stat-label">Lab Courses</p>
+        </div>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-institution">
+        <strong>Kennesaw State University</strong>
+        B.S. Electrical Engineering · Expected 2025
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Background</p>
+      <h2 class="section-title">About Me</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-sidebar fade-up">
+        <div class="about-info-block">
+          <p class="about-info-label">Institution</p>
+          <p class="about-info-value">Kennesaw State University</p>
+        </div>
+        <div class="about-info-block">
+          <p class="about-info-label">Degree</p>
+          <p class="about-info-value">B.S. Electrical Engineering</p>
+        </div>
+        <div class="about-info-block">
+          <p class="about-info-label">Current Role</p>
+          <p class="about-info-value">Electronics &amp; Arduino Intern<br>Time to Escape</p>
+        </div>
+        <div class="about-info-block">
+          <p class="about-info-label">Organization</p>
+          <p class="about-info-value">KSU Electric Vehicle Team</p>
+        </div>
+        <div class="about-info-block">
+          <p class="about-info-label">Location</p>
+          <p class="about-info-value">Atlanta, GA</p>
+        </div>
+      </div>
+      <div class="about-content fade-up">
+        <p>I'm a senior Electrical Engineering student at Kennesaw State University with a strong foundation in circuit analysis, RF simulation, embedded systems, and electronics fabrication. My coursework and project work spans CST Studio Suite antenna modeling, bare-metal STM32 programming in C and ARM assembly, AutoCAD technical drafting, and hands-on lab work with oscilloscopes, function generators, and breadboard circuits.</p>
+        <p>Currently, I'm interning as an Electronics and Arduino Intern at Time to Escape, where I program and maintain Arduino-based interactive props across multiple escape room venues in the Atlanta area. I also perform hardware diagnostics on solid-state arcade and pinball machines and document wiring schematics and repair logs.</p>
+        <p>I'm an active member of the KSU Electric Vehicle Team and have a growing interest in the intersection of embedded hardware, RF systems, and practical electronics engineering. I'm actively seeking full-time or internship roles in electrical engineering where I can contribute hands-on technical skills.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Capabilities</p>
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card fade-up">
+        <div class="skill-card-icon">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <p class="skill-card-title">Programming</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">C / C++</span>
+          <span class="skill-tag">ARM Assembly</span>
+          <span class="skill-tag">MATLAB</span>
+          <span class="skill-tag">Arduino (C-based)</span>
+          <span class="skill-tag">Java</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <p class="skill-card-title">EE Tools &amp; Simulation</p>
+        <div class="skill-tags">
+          <span class="skill-tag">LTSpice</span>
+          <span class="skill-tag">CST Studio Suite</span>
+          <span class="skill-tag">AutoCAD</span>
+          <span class="skill-tag">STM32CubeIDE</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-card-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="2"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        </div>
+        <p class="skill-card-title">Hardware &amp; Fabrication</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Soldering</span>
+          <span class="skill-tag">Oscilloscopes</span>
+          <span class="skill-tag">Function Generators</span>
+          <span class="skill-tag">Digital Multimeters</span>
+          <span class="skill-tag">Breadboarding</span>
+          <span class="skill-tag">Circuit Testing</span>
+          <span class="skill-tag">Crimping &amp; Wiring</span>
+        </div>
+      </div>
+      <div class="skill-card fade-up">
+        <div class="skill-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <p class="skill-card-title">Other Tools</p>
+        <div class="skill-tags">
+          <span class="skill-tag">Microsoft Office</span>
+          <span class="skill-tag">Google Workspace</span>
+          <span class="skill-tag">Overleaf / LaTeX</span>
+          <span class="skill-tag">DaVinci Resolve</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Work History</p>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item fade-up">
+        <p class="timeline-date">May 2026 — Present</p>
+        <p class="timeline-role">Electronics &amp; Arduino Intern</p>
+        <p class="timeline-org">Time to Escape · Marietta, GA</p>
+        <ul class="timeline-bullets">
+          <li>Programmed, tested, and refined Arduino-based interactive props and triggers across Marietta, Brookhaven, and Downtown Atlanta locations.</li>
+          <li>Diagnosed and resolved wiring, sensor, and power issues in electronic puzzle components; performed board-level diagnostics and preventative maintenance on solid-state arcade and pinball machines.</li>
+          <li>Documented wiring diagrams, schematics, code, and repair logs; collaborated with game designers and operations staff on new puzzle prototypes.</li>
+        </ul>
+      </div>
+      <div class="timeline-item fade-up">
+        <p class="timeline-date">Ongoing</p>
+        <p class="timeline-role">Member — Electric Vehicle Team</p>
+        <p class="timeline-org">Kennesaw State University</p>
+        <ul class="timeline-bullets">
+          <li>Active member contributing to hands-on EV design and engineering team activities at KSU.</li>
+        </ul>
+      </div>
+      <div class="timeline-item fade-up">
+        <p class="timeline-date">2025</p>
+        <p class="timeline-role">Undergraduate Research Assistant</p>
+        <p class="timeline-org">Math Path CASA · Georgia State University</p>
+        <ul class="timeline-bullets">
+          <li>Contributed to applied mathematics research exploring intersections between mathematical modeling and tissue engineering applications.</li>
+          <li>Analyzed datasets and supported documentation and reporting for ongoing research initiatives.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Portfolio</p>
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card fade-up">
+        <div class="project-card-header">
+          <p class="project-tag">Spring 2026 · Embedded Systems</p>
+          <p class="project-name">Fantasy Quest: The Lost Relic — STM32 RPG</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Full text-based RPG built in C on the STM32L476 Discovery Board. Implemented a finite state machine game engine with interrupt-driven UART input, dynamic difficulty scaling, interactive ASCII map, shop system, and multi-room progression. Wrote calcDamage and checkBlock functions in inline ARM Thumb-2 assembly. Managed Flash (~95 KB) and SRAM (~9 KB) on a resource-constrained embedded system.</p>
+          <div class="project-footer">
+            <span class="project-tech">C</span>
+            <span class="project-tech">ARM Assembly</span>
+            <span class="project-tech">STM32</span>
+            <span class="project-tech">UART</span>
+            <span class="project-tech">FSM</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-card-header">
+          <p class="project-tag">Spring 2026 · Electromagnetics</p>
+          <p class="project-name">Half-Wave Dipole Antenna Simulation</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Designed and simulated a half-wave dipole antenna in CST Studio Suite scaled to a custom operating frequency. Iteratively tuned geometry to meet S11 return loss specs. Constructed a layered human body model using custom dielectric materials (skin εr=41.32, fat εr=5.46, muscle εr=54.97) and analyzed antenna radiation patterns in three configurations: free space, on-body, and embedded inside muscle using Boolean subtraction.</p>
+          <div class="project-footer">
+            <span class="project-tech">CST Studio Suite</span>
+            <span class="project-tech">RF Simulation</span>
+            <span class="project-tech">S-Parameters</span>
+            <span class="project-tech">EM Modeling</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-card-header">
+          <p class="project-tag">Spring 2026 · RF Engineering</p>
+          <p class="project-name">Quarter-Wave Transformer Micro-strip Model</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Designed and simulated a quarter-wave micro-strip impedance matching network on a flexible polyamide substrate using CST Studio Suite. Evaluated electromagnetic performance under mechanical bending conditions using S-parameter analysis.</p>
+          <div class="project-footer">
+            <span class="project-tech">CST Studio Suite</span>
+            <span class="project-tech">Micro-strip</span>
+            <span class="project-tech">S-Parameters</span>
+            <span class="project-tech">AutoCAD</span>
+          </div>
+        </div>
+      </div>
+      <div class="project-card fade-up">
+        <div class="project-card-header">
+          <p class="project-tag">Fall 2023 · Engineering Graphics</p>
+          <p class="project-name">C-Clamp Technical Drawing</p>
+        </div>
+        <div class="project-body">
+          <p class="project-desc">Final project for Engineering Graphics. Produced a multi-view technical drawing of a C-clamp in AutoCAD including front, top, and right-side orthographic views plus an isometric view. Applied chamfers and fillets to all relevant edges and annotated with precise dimensions, tolerances, and units in full compliance with ANSI drafting standards.</p>
+          <div class="project-footer">
+            <span class="project-tech">AutoCAD</span>
+            <span class="project-tech">Technical Drawing</span>
+            <span class="project-tech">ANSI Standards</span>
+            <span class="project-tech">CAD</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Continuing Education</p>
+      <h2 class="section-title">Certifications</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="certs-grid">
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Electronics Foundations: Fundamentals</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Electronics Foundations: Basic Circuits</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Electronics Foundations: Semiconductor Devices</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Learning Arduino: Foundations</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">PLC Sequencer Logic</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Learning MATLAB</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Understanding Intellectual Property</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+      <div class="cert-item fade-up"><div class="cert-dot"></div><div><p class="cert-name">Understanding US Patents: A Deeper Dive</p><p class="cert-source">LinkedIn Learning · 2024</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="section-header fade-up">
+      <p class="section-eyebrow">Get In Touch</p>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-intro fade-up">
+        <p>I'm actively seeking electrical engineering internship and full-time opportunities. Whether you have a role in mind or just want to connect, feel free to reach out — I'd love to talk.</p>
+        <p>I'm particularly interested in roles involving embedded systems, RF/antenna engineering, circuit design, or hardware electronics.</p>
+        <div style="margin-top:2rem;">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <span>Available via contact form or LinkedIn</span>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span>Atlanta, GA (open to relocation)</span>
+          </div>
+          <div style="margin-top:1.5rem;">
+            <a href="JeffreyLeResume_v6.docx" download class="btn-primary">Download Résumé</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-form fade-up">
+        <div class="form-row">
+          <label class="form-label" for="name">Full Name</label>
+          <input class="form-input" type="text" id="name" placeholder="Your name">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="email">Email Address</label>
+          <input class="form-input" type="email" id="email" placeholder="your@email.com">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="company">Company / Organization</label>
+          <input class="form-input" type="text" id="company" placeholder="Optional">
+        </div>
+        <div class="form-row">
+          <label class="form-label" for="message">Message</label>
+          <textarea class="form-textarea" id="message" placeholder="Tell me about the opportunity or just say hello..."></textarea>
+        </div>
+        <button class="btn-primary" onclick="handleSubmit()" style="width:100%; justify-content:center; border:none; cursor:pointer;">Send Message</button>
+        <p class="form-note">Note: This form is a UI demo. To enable real email delivery, connect a backend service such as Formspree or EmailJS.</p>
+        <div class="form-success" id="form-success">Thank you! Your message has been received. I'll be in touch shortly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">Jeffrey Thien Bao Le</p>
+  <p class="footer-note">B.S. Electrical Engineering · Kennesaw State University · Atlanta, GA</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  function handleSubmit() {
+    const n = document.getElementById('name').value.trim();
+    const em = document.getElementById('email').value.trim();
+    const msg = document.getElementById('message').value.trim();
+    if (!n || !em || !msg) { alert('Please fill in your name, email, and message.'); return; }
+    document.getElementById('form-success').style.display = 'block';
+    document.getElementById('name').value = '';
+    document.getElementById('email').value = '';
+    document.getElementById('company').value = '';
+    document.getElementById('message').value = '';
+  }
+</script>
+</body>
+</html>
